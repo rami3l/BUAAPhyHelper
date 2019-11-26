@@ -1,3 +1,5 @@
+% Modified version of https://github.com/wtdcode/BUAAPhyhelper/blob/master/1031/3/main.m
+
 clear;
 clc;
 
@@ -5,21 +7,43 @@ format long
 
 X = load('data');
 const = load('const');
+
+%{
+
+X = [
+  % Put x1 - x10 here...
+  ;
+  % and x31 - x40 here.
+];
+
+% f1, f2 (in kHz), the temperature t in C (usually 24)
+const = [40.000 40.000 24];
+
+%}
+
 f1 = const(1);
 f2 = const(2);
 t = const(3);
 
 f = (f1+f2)/2
 
-lambda = (1/(10*10))*sum(X(:,2)-X(:,1))
+x_ = (1/(30*10))*sum(X(2,:)-X(1,:))
+
+lambda = 2 * x_
 
 c = f*lambda 
 
 c0 = 331.45.*sqrt(1+t/273.15)
 
-yita = (c - c0)/c0
+eta = abs(c - c0)/c0
 
-u_a_lambda = sqrt(sum(((X(:,2)-X(:,1))/10-lambda).^2)/(10*9))
+u_a_lambda = sqrt(
+  sum(
+    (
+      (X(2,:)-X(1,:))/30*2-lambda
+    ).^2
+  )/(10*9)
+)
 
 u_b1_lambda = 0.005/sqrt(3)
 
